@@ -1,0 +1,11 @@
+- name: install_ssh
+  apt: pkg=ssh state=present update_cache=true
+  register: ssh_installed
+  notify:
+    - start_ssh_server
+
+- name: copy_sshd_config
+  when: ssh_installed is success
+  copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root
+  notify:
+    - reload_ssh_server

@@ -1,0 +1,14 @@
+tasks:
+  name: install SSH
+  apt: pkg=ssh state=installed update_cache=true
+  register: sshinstalled
+  notify:
+    Start ssh server
+
+  name: copy sshd config
+  when: sshinstalled|success
+  copy: src sshd_config dest=/etc/ssh/sshd_config owner=root group=root
+  notify:
+    Reload ssh server
+
+ name:

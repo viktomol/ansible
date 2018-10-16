@@ -1,0 +1,9 @@
+- name: install_fail2ban
+  apt: pkg=fail2ban state=present update_cache=true
+  register: fail2ban_installed
+
+- name: copy_fail2ban_config
+  when: fail2ban_installed is success
+  copy: src=jail.conf dest=/etc/fail2ban/jail.conf owner=root group=root
+  notify:
+    - restart_fail2ban
