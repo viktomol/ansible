@@ -1,14 +1,7 @@
-tasks:
-  name: install SSH
-  apt: pkg=ssh state=installed update_cache=true
-  register: sshinstalled
-  notify:
-    Start ssh server
+---
+- import_tasks: sshd_server.yml
 
-  name: copy sshd config
-  when: sshinstalled|success
-  copy: src sshd_config dest=/etc/ssh/sshd_config owner=root group=root
-  notify:
-    Reload ssh server
+- import_tasks: fail2ban.yml
 
- name:
+#- import_tasks: authorized_keys.yml
+#  when: ssh_installed is success
