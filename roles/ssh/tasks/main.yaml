@@ -1,7 +1,6 @@
 ---
-- import_tasks: sshd_server.yml
+- import_tasks: install_sshd_server.yml
 
-- import_tasks: fail2ban.yml
+- import_tasks: install_fail2ban.yml
 
-#- import_tasks: authorized_keys.yml
-#  when: ssh_installed is success
+- import_tasks: copy_authorized_keys.yml

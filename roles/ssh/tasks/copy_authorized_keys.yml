@@ -1,0 +1,20 @@
+- name: create_ssh_directory
+  when: ssh_installed is success
+  file:
+    path: /home/viktor/.ssh
+    state: directory
+    owner: viktor
+    group: viktor
+    mode: 0700
+  register: ssh_directory_created
+
+- name: copy_authorized_keys
+  when: ssh_directory_created is success
+  copy:
+    src: authorized_keys
+    dest: /home/viktor/.ssh/authorized_keys
+    owner: viktor
+    group: viktor
+    mode: 0664
+  notify:
+    - reload_ssh_server

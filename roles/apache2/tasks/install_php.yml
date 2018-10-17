@@ -1,0 +1,24 @@
+- name: install_php
+  apt:
+    pkg:
+      - php
+      - php-pear
+      - php-cgi
+      - php-common
+      - libapache2-mod-php
+      - php-mbstring
+      - php-net-socket
+      - php-gd
+      - php-xml-util
+      - php-mysql
+      - php-gettext
+      - php-bcmath
+    state: present
+    update_cache: true
+  register: php_installed
+
+- name: enable_php
+  when: php_installed is success
+  shell: a2enconf php7.2-cgi
+  notify:
+    - restart_apache2
