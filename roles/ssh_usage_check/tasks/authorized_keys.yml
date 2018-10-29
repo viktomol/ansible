@@ -1,0 +1,18 @@
+- name: write_out_authorized_keys_header
+  shell: "echo '###################### {{server_hostname.stdout}} ###################### \n ------authorized_keys------' >> ssh_key_usage.txt"
+  delegate_to: localhost
+
+- name: check_authorized_keys_file_content
+  become: yes
+  become_user: root
+  become_method: sudo
+  shell: "echo '{{ item }}:' && cat /home/{{ item }}/.ssh/authorized_keys | grep ssh | awk '{print $3}' && echo ' '"
+  register: authorized_keys_content
+  with_items:
+    - "{{ home_dirs.stdout_lines }}"
+
+- name: write_out_authorized_keys_content
+  shell: "echo '{{ item.stdout }}' >> ssh_key_usage.txt"
+  with_items:
+    - "{{authorized_keys_content.results}}"
+  delegate_to: localhost

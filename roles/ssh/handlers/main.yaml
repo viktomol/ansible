@@ -1,0 +1,19 @@
+- name: start_ssh_server
+  service:
+    name: ssh
+    state: started
+
+- name: reload_ssh_server
+  service:
+    name: ssh
+    state: reloaded
+
+- name: restart_ssh_server
+  service:
+    name: ssh
+    state: restarted
+
+- name: restart_fail2ban
+  service:
+    name: fail2ban
+    state: restarted

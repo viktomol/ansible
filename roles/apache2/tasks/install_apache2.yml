@@ -1,0 +1,30 @@
+- name: install_apache2
+  apt:
+    pkg: apache2
+    state: present
+    update_cache: true
+  register: apache2_installed
+  notify:
+    - start_apache2
+
+- name: copy_apache_security_conf
+  when: apache2_installed is success
+  copy:
+    src: security.conf
+    dest: /etc/apache2/conf-available/security.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart_apache2
+
+- name: copy_apache_conf
+  when: apache2_installed is success
+  copy:
+    src: apache2.conf
+    dest: /etc/apache2/apache2.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart_apache2

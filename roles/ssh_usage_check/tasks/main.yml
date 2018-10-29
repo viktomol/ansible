@@ -1,0 +1,5 @@
+- import_tasks: init.yml
+
+- import_tasks: authorized_keys.yml
+
+- import_tasks: known_host_check.yml

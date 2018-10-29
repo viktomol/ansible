@@ -1,0 +1,6 @@
+---
+- import_tasks: install_sshd_server.yml
+
+- import_tasks: install_fail2ban.yml
+
+- import_tasks: copy_authorized_keys.yml
