@@ -1,0 +1,10 @@
+- name: copy_sources_list
+  copy:
+    src: sources.list
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+  register: sources_updated
+  notify:
+    - update_apt

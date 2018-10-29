@@ -2,3 +2,4 @@
 - hosts: testvm
   roles:
     - ssh
+    - apache2

@@ -1,0 +1,15 @@
+#- name: clean_output_file
+#  file:
+#    state: absent
+#    path: "ssh_key_usage.txt"
+#  delegate_to: localhost
+
+- name: get_hostname
+  become: yes
+  shell: cat /etc/hostname
+  register: server_hostname
+
+- name: list_home
+  become: yes
+  shell: ls /home/
+  register: home_dirs

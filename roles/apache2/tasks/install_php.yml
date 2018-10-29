@@ -1,4 +1,5 @@
 - name: install_php
+  when: apt_updated is success
   apt:
     pkg:
       - php
@@ -10,15 +11,20 @@
       - php-net-socket
       - php-gd
       - php-xml-util
-      - php-mysql
+      - php-pgsql
       - php-gettext
       - php-bcmath
     state: present
     update_cache: true
   register: php_installed
 
+- name: check_php_enabled
+  stat:
+    path: /etc/apache2/conf-enabled/php7.2-cgi.conf
+  register: php_enabled
+
 - name: enable_php
-  when: php_installed is success
+  when: php_enabled.stat.exists == False
   shell: a2enconf php7.2-cgi
   notify:
-    - restart_apache2
+    - reload_apache2

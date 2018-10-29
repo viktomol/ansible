@@ -1,2 +1,6 @@
 ---
 - import_tasks: install_apache2.yml
+
+- import_tasks: configure_apt_sources.yml
+
+- import_tasks: install_php.yml

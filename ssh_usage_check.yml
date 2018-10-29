@@ -1,0 +1,8 @@
+---
+- hosts:
+    - testvm
+    - dev
+  gather_facts: no
+  serial: 1
+  roles:
+    - ssh_usage_check

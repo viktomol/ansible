@@ -1,0 +1,18 @@
+- name: write_out_known_hosts_header
+  shell: "echo '------known_hosts------' >> ssh_key_usage.txt"
+  delegate_to: localhost
+
+- name: check_known_hosts_file_content
+  become: yes
+  become_user: root
+  become_method: sudo
+  shell: "echo '{{ item }}:' && cat /home/{{ item }}/.ssh/known_hosts | grep '|1|' | awk '{print $3}' && echo ' '"
+  register: known_hosts_content
+  with_items:
+    - "{{ home_dirs.stdout_lines }}"
+
+- name: write_out_known_hosts_content
+  shell: "echo '{{ item.stdout }}' >> ssh_key_usage.txt"
+  with_items:
+    - "{{known_hosts_content.results}}"
+  delegate_to: localhost
